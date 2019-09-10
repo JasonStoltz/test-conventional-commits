@@ -57,8 +57,12 @@ done
 # set positional arguments in their proper place
 eval set -- "$PARAMS"
 
+# Determine the current branch
+branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
 echo "
 Refreshing tags..."
+echo $branch
 git pull $UPSTREAM_REMOTE_NAME $branch --tags
 
 # Get the latest tag for this branch
@@ -87,9 +91,6 @@ fi
 # User provided version
 new_version="$V_PREFIX$major.$minor.$patch"
 
-# Determine the current branch
-branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
-
 # Confirm this is what the user intended
 read -p "Going to perform a release from branch '$branch' on remote '$UPSTREAM_REMOTE_NAME', is that correct?
 Press enter to continue.."
@@ -117,8 +118,8 @@ Press enter to continue..."
 git tag $new_version
 git push $UPSTREAM_REMOTE_NAME $new_version
 
-minor_branch_name=$major.$minor
-if [ `git branch --list $minor_branch_name` ]
+minor_branch_name="$major.$minor"
+if [ "$(git branch --list $minor_branch_name)" ]
 then
   echo "
 A branch for this minor, $minor_branch_name, already exists, continuing.
@@ -130,10 +131,8 @@ Press enter to continue..."
 
   git checkout -b $minor_branch_name
   git push $UPSTREAM_REMOTE_NAME $minor_branch_name
-  gut checkout $branch
+  git checkout $branch
 fi
-
-read -p "here"
 
 echo "
 Commits since last tag:"
