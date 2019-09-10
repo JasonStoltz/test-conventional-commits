@@ -14,8 +14,8 @@
 #   -u | --upstream-remote-name - Specify upstream remote name (Default is 'upstream')
 #
 # This script will:
-#   - Create a release commit, like "Release v1.0.0" and push it to "origin"
-#   - Create a tag, "v1.0.0" and push it to "origin"
+#   - Create a release commit, like "Release v1.0.0" and push it to "upstream"
+#   - Create a tag, "v1.0.0" and push it to "upstream"
 #   - Create a new draft release, with all commits since the previous tag
 #
 # After running this script, you should follow the link to the draft release
@@ -59,7 +59,7 @@ eval set -- "$PARAMS"
 
 echo "
 Refreshing tags..."
-git pull origin $branch --tags
+git pull $UPSTREAM_REMOTE_NAME $branch --tags
 
 # Get the latest tag for this branch
 latest_tag=$(git describe --abbrev=0 --tags)
@@ -95,14 +95,14 @@ Update the appropriate meta files (package.json). This script will then commit t
 Press enter to continue when you are done..."
 
 git commit -am "Release $new_version"
-git push origin $branch
+git push $UPSTREAM_REMOTE_NAME $branch
 
 read -p "
-Great, now we'll push the commit to origin and create tag '$new_version'.
+Great, now we'll push the commit to upstream and create tag '$new_version'.
 Press enter to continue..."
 
 git tag $new_version
-git push origin $new_version
+git push $UPSTREAM_REMOTE_NAME $new_version
 
 echo "
 Commits since last tag:"
