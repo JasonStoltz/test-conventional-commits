@@ -23,7 +23,8 @@
 branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
 # Confirm this is what the user intended
-read -p "Going to perform a release from branch '$branch', is that correct? Press enter to continue, or ctrl + c to bail."
+read -p "Going to perform a release from branch '$branch', is that correct?
+Press enter to continue.."
 
 # User provided version
 new_version=v$1
