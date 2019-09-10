@@ -35,6 +35,6 @@ commits=$(git log $latest_tag..$new_version --oneline | cut -d' ' -f 2-)
 
 echo $commits
 
-hub release create v1.2.3 -m "$new_version
+hub release create $new_version -m "$new_version
 $commits
 "
