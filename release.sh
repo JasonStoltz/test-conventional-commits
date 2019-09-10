@@ -71,8 +71,20 @@ then
   exit 0
 fi
 
+set -- "$1"
+IFS="."; declare -a Array=($*)
+major="${Array[0]}"
+minor="${Array[1]}"
+patch="${Array[2]}"
+
+if [ -z "$major" ] || [ -z "$minor" ] || [ -z "$patch" ]
+then
+  echo "Please provide a full semantic version number"
+  exit 1
+fi
+
 # User provided version
-new_version=$V_PREFIX$1
+new_version=$V_PREFIX$major.$minor.$patch
 
 # Determine the current branch
 branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
@@ -84,7 +96,7 @@ Press enter to continue.."
 # Confirm this is what the user intended
 read -p "
 Previous version: '$latest_tag'
-New version: '$new_version'.
+New version: '$new_version'
 
 Is this correct?
 Press enter to continue..."
