@@ -41,28 +41,33 @@ Is this correct?
 Press enter to continue..."
 
 # Give user the oppurtunity to update files.
-read -p "Update the appropriate meta files package.json). This script will then commit them with the message 'Release $new_version'.
+read -p "
+Update the appropriate meta files package.json). This script will then commit them with the message 'Release $new_version'.
 Press enter to continue when you are done..."
 
 git commit -am "Release $new_version"
 git push origin $branch
 
-read -p "Great, now we'll push the commit to origin and create tag '$new_version'.
+read -p "
+Great, now we'll push the commit to origin and create tag '$new_version'.
 Press enter to continue..."
 
 git tag $new_version
 git push origin $new_version
 
-echo "Refreshing tags..."
+echo "
+Refreshing tags..."
 
 git pull origin $branch --tags
 
-echo "Comments since last tag:"
+echo "
+Comments since last tag:"
 commits=$(git log $latest_tag..HEAD~1 --oneline | cut -d' ' -f 2-)
 
 echo $commits
 
-echo "Creating release $new_version"
+echo "
+Creating release $new_version"
 hub release create $new_version -m "$new_version
 $commits
 "
