@@ -39,15 +39,15 @@ latest_tag=$(git describe --abbrev=0 --tags)
 
 # Confirm this is what the user intended
 read -p "
-New version: '$new_version'.
 Previous version: '$latest_tag'
+New version: '$new_version'.
 
 Is this correct?
 Press enter to continue..."
 
-# Give user the oppurtunity to update files.
+# Give user the opportunity to update files.
 read -p "
-Update the appropriate meta files package.json). This script will then commit them with the message 'Release $new_version'.
+Update the appropriate meta files (package.json). This script will then commit them with the message 'Release $new_version'.
 Press enter to continue when you are done..."
 
 git commit -am "Release $new_version"
@@ -61,10 +61,8 @@ git tag $new_version
 git push origin $new_version
 
 echo "
-Comments since last tag:"
+Commits since last tag:"
 commits=$(git log $latest_tag..HEAD~1 --oneline | cut -d' ' -f 2-)
-
-echo $commits
 
 echo "
 Creating release $new_version"
