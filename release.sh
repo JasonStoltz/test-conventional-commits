@@ -31,4 +31,6 @@ echo "Refreshing tags..."
 git pull origin $branch --tags
 
 echo "Comments since last tag:"
-git log $latest_tag..$new_version --oneline | cut -d' ' -f 2-
+commits=$(git log $latest_tag..$new_version --oneline | cut -d' ' -f 2-)
+
+echo $commits
