@@ -134,8 +134,6 @@ Press enter to continue..."
   git checkout $branch
 fi
 
-read -p "here"
-
 echo "
 Commits since last tag:"
 commits=$(git log $latest_tag..HEAD~1 --oneline | cut -d' ' -f 2-)
