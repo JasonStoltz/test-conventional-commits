@@ -116,6 +116,21 @@ Press enter to continue..."
 git tag $new_version
 git push $UPSTREAM_REMOTE_NAME $new_version
 
+minor_branch_name = $major.$minor
+if [ `git branch --list minor_branch_name` ]
+then
+  echo "
+  A branch for this minor, $minor_branch_name, already exists, continuing.
+  Press enter to continue..."
+else
+  read -p "
+  A branch for this minor, $minor_branch_name, does not yet exist, this script will not create one and push it upstream.
+  Press enter to continue..."
+
+  git checkout -b $minor_branch_name
+  git push $UPSTREAM_REMOTE_NAME $minor_branch_name
+fi
+
 echo "
 Commits since last tag:"
 commits=$(git log $latest_tag..HEAD~1 --oneline | cut -d' ' -f 2-)
