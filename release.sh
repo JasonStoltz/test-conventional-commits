@@ -19,6 +19,7 @@ read -p "The version will be '$new_version'. The last version was '$latest_tag' 
 read -p "Great. Go update the appropriate meta files (package.json), etc. with the correct version. This script will then commit them with the message 'Release $new_version'. Press enter when you are done."
 
 git commit -am "Release $new_version"
+git push
 
 read -p "Great, now we'll push the commit to origin and create tag '$new_version'. Press enter to continue."
 
