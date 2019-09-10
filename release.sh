@@ -34,3 +34,7 @@ echo "Comments since last tag:"
 commits=$(git log $latest_tag..$new_version --oneline | cut -d' ' -f 2-)
 
 echo $commits
+
+hub release create v1.2.3 -m "$new_version
+$commits
+"
