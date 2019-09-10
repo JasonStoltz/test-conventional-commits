@@ -121,16 +121,19 @@ minor_branch_name=$major.$minor
 if [ `git branch --list $minor_branch_name` ]
 then
   echo "
-  A branch for this minor, $minor_branch_name, already exists, continuing.
-  Press enter to continue..."
+A branch for this minor, $minor_branch_name, already exists, continuing.
+Press enter to continue..."
 else
   read -p "
-  A branch for this minor, $minor_branch_name, does not yet exist, this script will not create one and push it upstream.
-  Press enter to continue..."
+A branch for this minor, $minor_branch_name, does not yet exist, this script will now create one and push it upstream.
+Press enter to continue..."
 
   git checkout -b $minor_branch_name
   git push $UPSTREAM_REMOTE_NAME $minor_branch_name
+  gut checkout $branch
 fi
+
+read -p "here"
 
 echo "
 Commits since last tag:"
