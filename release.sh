@@ -90,7 +90,7 @@ new_version=$V_PREFIX$major.$minor.$patch
 branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
 # Confirm this is what the user intended
-read -p "Going to perform a release from branch '$branch', is that correct?
+read -p "Going to perform a release from branch '$branch' on remote '$UPSTREAM_REMOTE_NAME', is that correct?
 Press enter to continue.."
 
 # Confirm this is what the user intended
