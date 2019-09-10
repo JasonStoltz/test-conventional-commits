@@ -116,7 +116,7 @@ Press enter to continue..."
 git tag $new_version
 git push $UPSTREAM_REMOTE_NAME $new_version
 
-minor_branch_name = $major.$minor
+minor_branch_name=$major.$minor
 if [ `git branch --list $minor_branch_name` ]
 then
   echo "
