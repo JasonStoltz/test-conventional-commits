@@ -5,7 +5,7 @@
 #  hub CLI
 #
 # Usage:
-#   release 1.0.0
+#   release v1.0.0
 #
 # This script will:
 #   - Create a release commit, like "Release v1.0.0" and push it to "origin"
@@ -27,7 +27,7 @@ read -p "Going to perform a release from branch '$branch', is that correct?
 Press enter to continue.."
 
 # User provided version
-new_version=v$1
+new_version=$1
 
 # Get the latest tag for this branch
 latest_tag=$(git describe --abbrev=0 --tags)
