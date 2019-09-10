@@ -68,7 +68,7 @@ echo $commits
 
 echo "
 Creating release $new_version"
-hub release create $new_version --draft --message "$new_version
+hub release create $new_version -d -m "$new_version
 $commits
 "
 
