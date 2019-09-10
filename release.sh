@@ -29,6 +29,11 @@ Press enter to continue.."
 # User provided version
 new_version=$1
 
+echo "
+Refreshing tags..."
+
+git pull origin $branch --tags
+
 # Get the latest tag for this branch
 latest_tag=$(git describe --abbrev=0 --tags)
 
@@ -54,11 +59,6 @@ Press enter to continue..."
 
 git tag $new_version
 git push origin $new_version
-
-echo "
-Refreshing tags..."
-
-git pull origin $branch --tags
 
 echo "
 Comments since last tag:"
