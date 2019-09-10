@@ -117,7 +117,7 @@ git tag $new_version
 git push $UPSTREAM_REMOTE_NAME $new_version
 
 minor_branch_name = $major.$minor
-if [ `git branch --list minor_branch_name` ]
+if [ `git branch --list $minor_branch_name` ]
 then
   echo "
   A branch for this minor, $minor_branch_name, already exists, continuing.
