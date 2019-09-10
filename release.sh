@@ -23,4 +23,11 @@ git commit -am "Release $new_version"
 read -p "Great, now we'll push the commit to origin and create tag '$new_version'. Press enter to continue."
 
 git tag $new_version
-git push origin --tags
+git push origin $new_version
+
+echo "Refreshing tags..."
+
+git pull origin $branch --tags
+
+echo "Comments since last tag:"
+git log $latest_tag..$new_version
