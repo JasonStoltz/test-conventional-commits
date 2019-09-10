@@ -5,7 +5,13 @@
 #  hub CLI
 #
 # Usage:
-#   release v1.0.0
+#   release <- Prints the latest release
+#   release 1.0.0 <- New release as "v1.0.0"
+#   release -s 1.0.0 <- New release as "1.0.0"
+#
+# Options:
+#   -s | --skip-v-prefix - Don't prefix version with "v"
+#   -u | --upstream-remote-name - Specify upstream remote name (Default is 'upstream')
 #
 # This script will:
 #   - Create a release commit, like "Release v1.0.0" and push it to "origin"
@@ -19,23 +25,61 @@
 # commits.
 #
 
+V_PREFIX='v'
+UPSTREAM_REMOTE_NAME='upstream'
+
+# Boilerplate parameter parsing
+PARAMS=""
+while (( "$#" )); do
+  case "$1" in
+    -u|--upstream-remote-name)
+      UPSTREAM_REMOTE_NAME="$2"
+      shift 2
+      ;;
+    -s|--skip-v-prefix)
+      V_PREFIX=''
+      shift 1
+      ;;
+    --) # end argument parsing
+      shift
+      break
+      ;;
+    -*|--*=) # unsupported flags
+      echo "Error: Unsupported flag $1" >&2
+      exit 1
+      ;;
+    *) # preserve positional arguments
+      PARAMS="$PARAMS $1"
+      shift
+      ;;
+  esac
+done
+# set positional arguments in their proper place
+eval set -- "$PARAMS"
+
+echo "
+Refreshing tags..."
+git pull origin $branch --tags
+
+# Get the latest tag for this branch
+latest_tag=$(git describe --abbrev=0 --tags)
+
+# If no version is provided, just print the latest released version
+if [ -z "$1" ]
+then
+  echo "The latest release is $latest_tag"
+  exit 0
+fi
+
+# User provided version
+new_version=$V_PREFIX$1
+
 # Determine the current branch
 branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
 # Confirm this is what the user intended
 read -p "Going to perform a release from branch '$branch', is that correct?
 Press enter to continue.."
-
-# User provided version
-new_version=$1
-
-echo "
-Refreshing tags..."
-
-git pull origin $branch --tags
-
-# Get the latest tag for this branch
-latest_tag=$(git describe --abbrev=0 --tags)
 
 # Confirm this is what the user intended
 read -p "
