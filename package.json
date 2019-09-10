@@ -1,6 +1,6 @@
 {
   "name": "test-conventional-commits",
-  "version": "6.7.0",
+  "version": "6.7.1",
   "private": true,
   "dependencies": {
     "react": "^16.9.0",
