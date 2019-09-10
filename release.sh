@@ -76,6 +76,7 @@ IFS="."; declare -a Array=($*)
 major="${Array[0]}"
 minor="${Array[1]}"
 patch="${Array[2]}"
+unset IFS
 
 if [ -z "$major" ] || [ -z "$minor" ] || [ -z "$patch" ]
 then
@@ -84,7 +85,7 @@ then
 fi
 
 # User provided version
-new_version=$V_PREFIX$major.$minor.$patch
+new_version="$V_PREFIX$major.$minor.$patch"
 
 # Determine the current branch
 branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
@@ -112,9 +113,6 @@ git push $UPSTREAM_REMOTE_NAME $branch
 read -p "
 Great, now we'll push the commit to upstream and create tag '$new_version'.
 Press enter to continue..."
-
-echo $UPSTREAM_REMOTE_NAME
-echo $new_version
 
 git tag $new_version
 git push $UPSTREAM_REMOTE_NAME $new_version
