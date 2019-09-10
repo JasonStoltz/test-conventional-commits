@@ -57,8 +57,12 @@ done
 # set positional arguments in their proper place
 eval set -- "$PARAMS"
 
+# Determine the current branch
+branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
 echo "
 Refreshing tags..."
+echo $branch
 git pull $UPSTREAM_REMOTE_NAME $branch --tags
 
 # Get the latest tag for this branch
@@ -86,9 +90,6 @@ fi
 
 # User provided version
 new_version="$V_PREFIX$major.$minor.$patch"
-
-# Determine the current branch
-branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
 # Confirm this is what the user intended
 read -p "Going to perform a release from branch '$branch' on remote '$UPSTREAM_REMOTE_NAME', is that correct?
