@@ -113,6 +113,9 @@ read -p "
 Great, now we'll push the commit to upstream and create tag '$new_version'.
 Press enter to continue..."
 
+echo $UPSTREAM_REMOTE_NAME
+echo $new_version
+
 git tag $new_version
 git push $UPSTREAM_REMOTE_NAME $new_version
 
